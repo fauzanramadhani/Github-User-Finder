@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">GitHub User Finder</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search">Search</string>
+    <string name="fauzan_gracia_ramadhani">Fauzan Gracia Ramadhani</string>
+    <string name="_192761">192761</string>
+    <string name="my_id">GitHub ID: %s</string>
+    <string name="github_id">Github ID:</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="_0">0</string>
+    <string name="user_not_found">User Not Found</string>
+    <string name="fauzanramadhani06_gmail_com">fauzanramadhani06@gmail.com</string>
+    <string name="created_by">Created By:</string>
+    <string name="_082260012008">082260012008</string>
+    <string name="fauzanramadhani">fauzanramadhani</string>
+</resources>
