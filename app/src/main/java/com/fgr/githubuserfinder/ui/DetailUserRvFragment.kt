@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fgr.githubuserfinder.adapter.SearchUsersAdapter
-import com.fgr.githubuserfinder.data.DetailViewModel
+import com.fgr.githubuserfinder.viewmodel.DetailViewModel
 import com.fgr.githubuserfinder.databinding.FragmentDetailUserRvBinding
 import com.fgr.githubuserfinder.response.ListUsers
-import com.fgr.githubuserfinder.utils.DetailActivityModelFactory
+import com.fgr.githubuserfinder.utils.ViewModelFactory
 
 class DetailUserRvFragment : Fragment() {
 
@@ -42,11 +42,11 @@ class DetailUserRvFragment : Fragment() {
         val indexPosition = arguments?.getInt(INDEX_POSITION, 0)!!
         val userName = arguments?.getString(USERNAME) ?: "empty"
         listFoll = ArrayList()
-        val factory = DetailActivityModelFactory(userName, indexPosition)
-        val detailViewModel = ViewModelProvider(
-            this,
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireContext())
+        factory.setUsername(userName)
+        val detailViewModel: DetailViewModel by viewModels {
             factory
-        )[DetailViewModel::class.java]
+        }
         detailViewModel.isLoadingFollowers.observe(requireActivity()) { isLoadingFollowers ->
             if (isLoadingFollowers) {
                 binding.progressBar.visibility = View.VISIBLE
@@ -61,14 +61,21 @@ class DetailUserRvFragment : Fragment() {
                 binding.progressBar.visibility = View.INVISIBLE
             }
         }
-        detailViewModel.followerList.observe(requireActivity()) {
-            if (it.isNotEmpty()) {
-                binding.rvSearchUsers.adapter = SearchUsersAdapter(requireContext(), it)
+
+        when (indexPosition) {
+            0 -> {
+                detailViewModel.followerList.observe(requireActivity()) {
+                    if (it.isNotEmpty()) {
+                        binding.rvSearchUsers.adapter = SearchUsersAdapter(requireContext(), it)
+                    }
+                }
             }
-        }
-        detailViewModel.followingList.observe(requireActivity()) {
-            if (it.isNotEmpty()) {
-                binding.rvSearchUsers.adapter = SearchUsersAdapter(requireContext(), it)
+            1 -> {
+                detailViewModel.followingList.observe(requireActivity()) {
+                    if (it.isNotEmpty()) {
+                        binding.rvSearchUsers.adapter = SearchUsersAdapter(requireContext(), it)
+                    }
+                }
             }
         }
     }

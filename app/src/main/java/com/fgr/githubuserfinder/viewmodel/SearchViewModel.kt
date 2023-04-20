@@ -1,4 +1,4 @@
-package com.fgr.githubuserfinder.data
+package com.fgr.githubuserfinder.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -27,7 +27,7 @@ class SearchViewModel : ViewModel() {
 
     fun searchUsers(username: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService("https://api.github.com/").getUsers(username)
+        val client = ApiConfig.getApiService().getUsers(username)
         client.enqueue(object : Callback<SearchResponse> {
             override fun onResponse(
                 call: Call<SearchResponse>,

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fgr.githubuserfinder.MainActivity
 import com.fgr.githubuserfinder.R
 import com.fgr.githubuserfinder.adapter.SearchUsersAdapter
-import com.fgr.githubuserfinder.data.SearchViewModel
+import com.fgr.githubuserfinder.viewmodel.SearchViewModel
 import com.fgr.githubuserfinder.databinding.FragmentSearchBinding
 import com.fgr.githubuserfinder.response.ListUsers
 import com.fgr.githubuserfinder.utils.isNotEmpty
@@ -63,6 +63,7 @@ class SearchFragment : Fragment() {
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
             override fun onPrepareMenu(menu: Menu) {
                 // Handle back button when menu expanded
+                menu.findItem(R.id.light).isVisible = false
                 menu.findItem(R.id.search).expandActionView()
                 menu.findItem(R.id.search)
                     .setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
@@ -128,6 +129,9 @@ class SearchFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.search -> {
+                        true
+                    }
+                    R.id.light -> {
                         true
                     }
 

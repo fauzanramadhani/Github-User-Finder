@@ -6,11 +6,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiConfig {
     companion object {
-        fun getApiService(url: String): ApiInterface {
+        fun getApiService(): ApiInterface {
             val client = OkHttpClient.Builder()
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl(url)
+                .baseUrl("https://api.github.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

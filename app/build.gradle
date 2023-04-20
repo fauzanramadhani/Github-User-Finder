@@ -47,8 +47,11 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     //Retrofit GSON Converter
@@ -62,4 +65,16 @@ dependencies {
     //View Model
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
+    //Room
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.2"
+    implementation "androidx.room:room-runtime:2.5.0-alpha02"
+    kapt "androidx.room:room-compiler:2.5.0-alpha02"
+    //coroutine support
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0" //viewModelScope
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0" //liveData
+    implementation "androidx.room:room-ktx:2.4.0"
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.9'
+    //Preferences DataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 }

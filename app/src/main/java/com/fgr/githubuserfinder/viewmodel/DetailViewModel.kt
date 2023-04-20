@@ -1,20 +1,23 @@
-package com.fgr.githubuserfinder.data
+package com.fgr.githubuserfinder.viewmodel
 
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.fgr.githubuserfinder.local.entity.UserEntity
+import com.fgr.githubuserfinder.repo.UsersRepository
 import com.fgr.githubuserfinder.response.DetailResponse
 import com.fgr.githubuserfinder.response.ListUsers
 import com.fgr.githubuserfinder.retrofit.ApiConfig
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel @ViewModelInject constructor(
-    username: String,
-    event: Int
+class DetailViewModel (
+    private val username: String,
+    private val usersRepository: UsersRepository,
 ) : ViewModel() {
     private val _followerList = MutableLiveData<List<ListUsers>>()
     val followerList: LiveData<List<ListUsers>> = _followerList
@@ -28,10 +31,12 @@ class DetailViewModel @ViewModelInject constructor(
     val isLoadingFollowing: LiveData<Boolean> = _isLoadingFollowing
     private val _isLoadingUserDetail = MutableLiveData<Boolean>()
     val isLoadingUserDetail: LiveData<Boolean> = _isLoadingUserDetail
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> = _isFavorite
 
     private fun getUserDetail(username: String) {
         _isLoadingUserDetail.value = true
-        val client = ApiConfig.getApiService("https://api.github.com").getDetail(username)
+        val client = ApiConfig.getApiService().getDetail(username)
         client.enqueue(object: Callback<DetailResponse>{
             override fun onResponse(
                 call: Call<DetailResponse>,
@@ -47,7 +52,7 @@ class DetailViewModel @ViewModelInject constructor(
 
             override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
                 _isLoadingFollowers.value = false
-                TODO("Not yet implemented")
+                Log.e("onFailure Get Detail Info", " ${t.message.toString()}")
             }
 
         })
@@ -55,7 +60,7 @@ class DetailViewModel @ViewModelInject constructor(
 
     private fun getUserFollowers(username: String) {
         _isLoadingFollowers.value = true
-        val client = ApiConfig.getApiService("https://api.github.com").getFollowersList(username)
+        val client = ApiConfig.getApiService().getFollowersList(username)
         client.enqueue(object : Callback<List<ListUsers>> {
             override fun onResponse(
                 call: Call<List<ListUsers>>,
@@ -78,7 +83,7 @@ class DetailViewModel @ViewModelInject constructor(
 
     private fun getUserFollowing(username: String) {
         _isLoadingFollowing.value = true
-        val client = ApiConfig.getApiService("https://api.github.com").getFollowingList(username)
+        val client = ApiConfig.getApiService().getFollowingList(username)
         client.enqueue(object : Callback<List<ListUsers>> {
             override fun onResponse(
                 call: Call<List<ListUsers>>,
@@ -99,18 +104,27 @@ class DetailViewModel @ViewModelInject constructor(
         })
     }
 
-    init {
-        when (event) {
-            0 -> {
-                getUserFollowers(username)
-            }
-            1 -> {
-                getUserFollowing(username)
-            }
-            else -> {
-                getUserDetail(username)
-            }
+    fun isFav() {
+        viewModelScope.launch {
+            _isFavorite.value = usersRepository.isFav(username)
         }
+    }
 
+    fun addFav(user: UserEntity) {
+        viewModelScope.launch {
+            usersRepository.addFav(user)
+        }
+    }
+    fun deleteFav(username: String) {
+        viewModelScope.launch {
+            usersRepository.deleteFav(username)
+        }
+    }
+
+    init {
+        isFav()
+        getUserDetail(username)
+        getUserFollowers(username)
+        getUserFollowing(username)
     }
 }

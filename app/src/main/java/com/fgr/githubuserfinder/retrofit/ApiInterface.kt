@@ -10,7 +10,7 @@ interface ApiInterface {
 
     companion object {
         private const val GITHUB_TOKEN_AUTHORIZATION =
-            "Bearer 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"
+            "Bearer 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"
     }
 
     @GET("search/users")

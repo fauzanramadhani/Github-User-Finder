@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="@string/fauzan_gracia_ramadhani"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toEndOf="@id/item_user_image"
         app:layout_constraintTop_toTopOf="@+id/item_user_image" />
 
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="@string/github_id"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toEndOf="@id/item_user_image"
         app:layout_constraintTop_toBottomOf="@+id/item_user_name" />
 
@@ -42,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:text="@string/_192761"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toEndOf="@id/item_user_id"
         app:layout_constraintTop_toBottomOf="@+id/item_user_name" />
 
